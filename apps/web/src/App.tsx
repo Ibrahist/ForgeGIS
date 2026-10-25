@@ -4,7 +4,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
-import { useProjectStore, loadSpatialFile } from '@forgegis/core';
+import { useProjectStore, loadSpatialFile, parseToolDeepLink } from '@forgegis/core';
 import {
   LayersPanel,
   BasemapSwitcher,
@@ -14,6 +14,7 @@ import {
   Legend,
   Modal,
   SqlWorkspace,
+  Toolbox,
 } from '@forgegis/ui';
 import { Header } from './components/Header';
 import { MapCanvas } from './components/MapCanvas';
@@ -28,11 +29,29 @@ export const App: React.FC = () => {
     closeStyleEditor,
     isSqlEditorOpen,
     setSqlEditorOpen,
+    isToolboxOpen,
+    setToolboxOpen,
     addLayer,
     zoomToLayer,
   } = useProjectStore();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [deepLink, setDeepLink] = useState<{
+    toolId: string;
+    parameters: Record<string, unknown>;
+    autorun: boolean;
+  } | null>(null);
+
+  // Check URL query parameters for deep linking
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.search) {
+      const parsed = parseToolDeepLink(window.location.search);
+      if (parsed) {
+        setDeepLink(parsed);
+        setToolboxOpen(true);
+      }
+    }
+  }, []);
 
   // Auto-load coastal demo datasets on initial empty load
   useEffect(() => {
@@ -68,6 +87,7 @@ export const App: React.FC = () => {
       <Header
         onOpenAddLayer={() => setAddLayerOpen(true)}
         onOpenSqlWorkspace={() => setSqlEditorOpen(true)}
+        onOpenToolbox={() => setToolboxOpen(true)}
       />
 
       {/* Main Workspace Body */}
@@ -111,6 +131,21 @@ export const App: React.FC = () => {
 
       {/* Bottom Attribute Table Drawer */}
       <AttributeTable />
+
+      {/* Geoprocessing Toolbox Modal */}
+      <Modal
+        isOpen={isToolboxOpen}
+        onClose={() => setToolboxOpen(false)}
+        title="In-Browser Geoprocessing Toolbox"
+        subtitle="17 pure Web Worker & WASM algorithms running client-side with zero server roundtrips"
+        size="xl"
+      >
+        <Toolbox
+          initialToolId={deepLink?.toolId}
+          initialParams={deepLink?.parameters}
+          autoRun={deepLink?.autorun}
+        />
+      </Modal>
 
       {/* Spatial SQL Workspace Modal */}
       <Modal

@@ -15,3 +15,6 @@ export * from './styling/classification';
 export * from './measure/measurements';
 export * from './store/projectStore';
 export * from './duckdb/duckdbEngine';
+export * from './tools/toolRegistry';
+export * from './tools/toolRunner';
+export * from './tools/deepLink';

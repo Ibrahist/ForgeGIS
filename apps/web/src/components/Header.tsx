@@ -8,6 +8,7 @@ import {
   BookOpen,
   Share2,
   Blocks,
+  Code2,
 } from 'lucide-react';
 import { useProjectStore } from '@forgegis/core';
 import { Button, Pill } from '@forgegis/ui';
@@ -17,6 +18,7 @@ export interface HeaderProps {
   onOpenSqlWorkspace?: () => void;
   onOpenToolbox?: () => void;
   onOpenPlugins?: () => void;
+  onOpenPython?: () => void;
   onOpenShareModal?: (tab?: 'project' | 'html' | 'embed') => void;
   className?: string;
 }
@@ -26,6 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenSqlWorkspace,
   onOpenToolbox,
   onOpenPlugins,
+  onOpenPython,
   onOpenShareModal,
   className = '',
 }) => {
@@ -105,6 +108,16 @@ export const Header: React.FC<HeaderProps> = ({
           title="Open Plugin Ecosystem Manager"
         >
           Plugins
+        </Button>
+
+        <Button
+          variant="glass"
+          size="sm"
+          onClick={onOpenPython}
+          icon={<Code2 size={14} className="text-[#38bdf8]" />}
+          title="Open In-Browser Python Workspace (Pyodide WASM)"
+        >
+          Python
         </Button>
       </div>
 

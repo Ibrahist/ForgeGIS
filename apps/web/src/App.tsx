@@ -23,6 +23,7 @@ import {
   Toolbox,
   ProjectShareModal,
   PluginManagerModal,
+  PythonWorkspace,
 } from '@forgegis/ui';
 import { ALL_BUILTIN_PLUGINS, TimeSliderWidget } from '@forgegis/plugins';
 import { Header } from './components/Header';
@@ -52,6 +53,7 @@ export const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isPluginsOpen, setIsPluginsOpen] = useState(false);
+  const [isPythonOpen, setIsPythonOpen] = useState(false);
   const [shareModalTab, setShareModalTab] = useState<'project' | 'html' | 'embed'>('project');
   const [deepLink, setDeepLink] = useState<{
     toolId: string;
@@ -165,6 +167,7 @@ export const App: React.FC = () => {
         onOpenSqlWorkspace={() => setSqlEditorOpen(true)}
         onOpenToolbox={() => setToolboxOpen(true)}
         onOpenPlugins={() => setIsPluginsOpen(true)}
+        onOpenPython={() => setIsPythonOpen(true)}
         onOpenShareModal={(tab) => {
           setShareModalTab(tab || 'project');
           setIsShareModalOpen(true);
@@ -173,10 +176,10 @@ export const App: React.FC = () => {
 
       {/* Main Workspace Body */}
       <div className="flex-1 relative flex overflow-hidden">
-        {/* Left Collapsible Layers Dock */}
+        {/* Left Collapsible Layers Dock with Mobile Slide-over Overlay */}
         <aside
-          className={`relative z-20 transition-all duration-300 flex border-r border-white/8 ${
-            isSidebarOpen ? 'w-80' : 'w-0'
+          className={`fixed md:relative z-40 md:z-20 h-[calc(100vh-56px)] transition-all duration-300 flex border-r border-white/8 bg-[#0a0a0c] shadow-2xl md:shadow-none ${
+            isSidebarOpen ? 'w-80 left-0' : 'w-0 -left-80 md:left-0'
           }`}
         >
           <div className="w-80 h-full overflow-hidden flex flex-col">
@@ -240,6 +243,17 @@ export const App: React.FC = () => {
         size="xl"
       >
         <SqlWorkspace />
+      </Modal>
+
+      {/* In-Browser Python Workspace Modal */}
+      <Modal
+        isOpen={isPythonOpen}
+        onClose={() => setIsPythonOpen(false)}
+        title="In-Browser Python Workspace (Pyodide WASM)"
+        subtitle="Write client-side Python GIS scripts with direct zero-server bridge to layers and map camera"
+        size="xl"
+      >
+        <PythonWorkspace />
       </Modal>
 
       {/* Style Editor Modal */}

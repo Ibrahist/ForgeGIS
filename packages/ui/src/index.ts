@@ -14,6 +14,7 @@ export * from './components/SqlWorkspace';
 export * from './components/Toolbox';
 export * from './components/ProjectShareModal';
 export * from './components/PluginManagerModal';
+export * from './components/PythonWorkspace';
 
 import './styles/tokens.css';
 import './styles/theme.css';

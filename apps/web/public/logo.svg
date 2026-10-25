@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <defs>
+    <linearGradient id="tile-bg" x1="4" y1="4" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#181820"/>
+      <stop offset="1" stop-color="#0a0a0c"/>
+    </linearGradient>
+    <linearGradient id="forge-accent" x1="6" y1="18" x2="58" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffd0db"/>
+      <stop offset="0.5" stop-color="#f47fa3"/>
+      <stop offset="1" stop-color="#e3b450"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#tile-bg)" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1.5"/>
+  <!-- Geospatial Contours & Anvil Curve -->
+  <path d="M12 44 C 20 22, 44 22, 52 44" stroke="url(#forge-accent)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M16 34 C 24 16, 40 16, 48 34" stroke="url(#forge-accent)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 3"/>
+  <circle cx="32" cy="22" r="3.5" fill="#ffd0db"/>
+  <path d="M32 12 L32 17" stroke="#ffd0db" stroke-width="2" stroke-linecap="round"/>
+  <path d="M32 27 L32 32" stroke="#ffd0db" stroke-width="2" stroke-linecap="round"/>
+</svg>

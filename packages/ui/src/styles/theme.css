@@ -1,0 +1,89 @@
+@import './tokens.css';
+
+.fg-glass {
+  background: var(--fg-bg-surface-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--fg-border-hairline);
+}
+
+.fg-panel {
+  background: var(--fg-bg-surface-1);
+  border: 1px solid var(--fg-border-hairline);
+  border-radius: var(--fg-radius-lg);
+  box-shadow: var(--fg-shadow-surface);
+}
+
+.fg-card {
+  background: var(--fg-bg-surface-2);
+  border: 1px solid var(--fg-border-hairline);
+  border-radius: var(--fg-radius-md);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.fg-card:hover {
+  border-color: var(--fg-border-active);
+}
+
+.fg-pill-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--fg-radius-pill);
+  font-family: var(--fg-font-sans);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+  border: 1px solid transparent;
+  user-select: none;
+}
+
+.fg-pill-primary {
+  background: linear-gradient(135deg, var(--fg-accent-rose), var(--fg-accent-gold));
+  color: #0a0a0c;
+  border-color: transparent;
+  box-shadow: var(--fg-shadow-glow);
+}
+
+.fg-pill-primary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.fg-pill-glass {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--fg-border-hairline);
+  color: var(--fg-text-primary);
+}
+
+.fg-pill-glass:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--fg-border-active);
+}
+
+.fg-pill-glass.active {
+  background: rgba(244, 127, 163, 0.15);
+  border-color: var(--fg-accent-rose);
+  color: var(--fg-accent-rose-soft);
+}
+
+.fg-pill-subtle {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--fg-text-secondary);
+}
+
+.fg-pill-subtle:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--fg-text-primary);
+}
+
+.fg-mono-badge {
+  font-family: var(--fg-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--fg-text-muted);
+}

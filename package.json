@@ -1,0 +1,21 @@
+{
+  "name": "forgegis-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ForgeGIS - Open-source, local-first, cloud-native geospatial exploration platform",
+  "scripts": {
+    "dev": "pnpm --filter @forgegis/web dev",
+    "build": "pnpm --filter @forgegis/core build && pnpm --filter @forgegis/ui build && pnpm --filter @forgegis/plugins build && pnpm --filter @forgegis/web build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc -b",
+    "e2e": "pnpm --filter @forgegis/e2e test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "packageManager": "pnpm@12.15.0"
+}

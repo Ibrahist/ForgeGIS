@@ -24,6 +24,8 @@ import {
   ProjectShareModal,
   PluginManagerModal,
   PythonWorkspace,
+  DemoGalleryModal,
+  KeyboardShortcutsModal,
 } from '@forgegis/ui';
 import { ALL_BUILTIN_PLUGINS, TimeSliderWidget } from '@forgegis/plugins';
 import { Header } from './components/Header';
@@ -54,6 +56,8 @@ export const App: React.FC = () => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isPluginsOpen, setIsPluginsOpen] = useState(false);
   const [isPythonOpen, setIsPythonOpen] = useState(false);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const [shareModalTab, setShareModalTab] = useState<'project' | 'html' | 'embed'>('project');
   const [deepLink, setDeepLink] = useState<{
     toolId: string;
@@ -159,6 +163,45 @@ export const App: React.FC = () => {
     loadInitialDemos();
   }, []);
 
+  // Global Keyboard Shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+
+      if (e.key === '?') {
+        setIsShortcutsOpen((prev) => !prev);
+      } else if (e.key.toLowerCase() === 'g') {
+        setIsGalleryOpen((prev) => !prev);
+      } else if (e.key.toLowerCase() === 's') {
+        setSqlEditorOpen(!isSqlEditorOpen);
+      } else if (e.key.toLowerCase() === 't') {
+        setToolboxOpen(!isToolboxOpen);
+      } else if (e.key.toLowerCase() === 'p') {
+        setIsPluginsOpen((prev) => !prev);
+      } else if (e.key.toLowerCase() === 'y') {
+        setIsPythonOpen((prev) => !prev);
+      } else if (e.key.toLowerCase() === 'a') {
+        setAddLayerOpen(true);
+      } else if (e.key.toLowerCase() === 'l') {
+        setIsSidebarOpen((prev) => !prev);
+      } else if (e.key.toLowerCase() === 'e') {
+        setIsShareModalOpen(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isSqlEditorOpen, isToolboxOpen, setSqlEditorOpen, setToolboxOpen, setAddLayerOpen]);
+
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-[#0a0a0c]">
       {/* Top Header */}
@@ -168,6 +211,8 @@ export const App: React.FC = () => {
         onOpenToolbox={() => setToolboxOpen(true)}
         onOpenPlugins={() => setIsPluginsOpen(true)}
         onOpenPython={() => setIsPythonOpen(true)}
+        onOpenGallery={() => setIsGalleryOpen(true)}
+        onOpenShortcuts={() => setIsShortcutsOpen(true)}
         onOpenShareModal={(tab) => {
           setShareModalTab(tab || 'project');
           setIsShareModalOpen(true);
@@ -282,6 +327,18 @@ export const App: React.FC = () => {
           pluginManager={pluginManagerRef.current}
         />
       )}
+
+      {/* Demo Projects Gallery Modal */}
+      <DemoGalleryModal
+        isOpen={isGalleryOpen}
+        onClose={() => setIsGalleryOpen(false)}
+      />
+
+      {/* Keyboard Shortcuts Cheat-Sheet Modal */}
+      <KeyboardShortcutsModal
+        isOpen={isShortcutsOpen}
+        onClose={() => setIsShortcutsOpen(false)}
+      />
 
       {/* Add Layer Modal */}
       <AddLayerModal

@@ -15,7 +15,7 @@ describe('Builtin Production Plugins', () => {
         zoom: 2,
         pitch: 0,
         bearing: 0,
-        projection: 'mercator',
+        projection: 'mercator' as const,
         terrain3d: { enabled: false, exaggeration: 1 },
       })),
       setView: vi.fn(),

@@ -15,6 +15,8 @@ export * from './components/Toolbox';
 export * from './components/ProjectShareModal';
 export * from './components/PluginManagerModal';
 export * from './components/PythonWorkspace';
+export * from './components/DemoGalleryModal';
+export * from './components/KeyboardShortcutsModal';
 
 import './styles/tokens.css';
 import './styles/theme.css';

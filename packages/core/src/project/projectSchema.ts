@@ -130,7 +130,8 @@ export function validateProject(data: unknown): ValidationResult {
         const l = layer as Record<string, unknown>;
         if (typeof l.id !== 'string') errors.push(`layers[${idx}].id must be a string`);
         if (typeof l.name !== 'string') errors.push(`layers[${idx}].name must be a string`);
-        if (typeof l.type !== 'string') errors.push(`layers[${idx}].type must be a string`);
+        const layerType = l.type || l.sourceType;
+        if (typeof layerType !== 'string') errors.push(`layers[${idx}].type must be a string`);
       }
     });
   }

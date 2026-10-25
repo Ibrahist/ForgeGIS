@@ -35,6 +35,9 @@ describe('Standalone HTML & Embed Exporter', () => {
         type: 'geojson',
         visible: true,
         opacity: 0.85,
+        zIndex: 1,
+        fields: [],
+        featureCount: 1,
         source: {
           data: {
             type: 'FeatureCollection',

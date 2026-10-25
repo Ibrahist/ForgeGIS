@@ -1,0 +1,52 @@
+name: ForgeGIS CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Build, Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Typecheck Workspace
+        run: pnpm -r run build
+
+      - name: Run Core & Plugins Unit Tests
+        run: |
+          pnpm --filter @forgegis/core test -- --run
+          pnpm --filter @forgegis/plugins test
+
+      - name: Run Python SDK Unit Tests
+        run: |
+          python -c "import sys; sys.path.insert(0, 'python'); import tests.test_forgegis as t; t.test_map_initialization(); t.test_add_geojson_layer(); t.test_set_view(); t.test_execute_sql(); t.test_to_html_export(); print('Python Tests Passed!')"
+
+      - name: Install Playwright Browsers
+        run: pnpm --filter @forgegis/e2e exec playwright install --with-deps chromium
+
+      - name: Run Playwright E2E Suite
+        run: pnpm --filter @forgegis/e2e test

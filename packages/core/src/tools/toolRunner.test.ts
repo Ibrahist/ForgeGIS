@@ -143,7 +143,7 @@ describe('In-Browser Geoprocessing Algorithms (17 Tools)', () => {
     const tool = TOOL_REGISTRY.find((t) => t.id === 'crs-reproject')!;
     const output = await executeToolAlgorithm(tool, { inputLayerId: 'points', targetCRS: 'EPSG:3857' }, getLayerData);
     expect(output.featureCollection).toBeDefined();
-    const coord = output.featureCollection?.features[0].geometry as { coordinates: [number, number] };
+    const coord = output.featureCollection?.features[0].geometry as unknown as { coordinates: [number, number] };
     // -122.4 degrees in Web Mercator is approximately -13625000 meters
     expect(coord.coordinates[0]).toBeLessThan(-1000000);
   });

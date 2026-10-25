@@ -40,6 +40,9 @@ describe('Project Schema & Serialization', () => {
         type: 'geojson',
         visible: true,
         opacity: 0.9,
+        zIndex: 1,
+        fields: [],
+        featureCount: 1,
         source: {
           data: {
             type: 'FeatureCollection',

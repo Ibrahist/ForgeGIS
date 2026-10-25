@@ -22,3 +22,4 @@ export * from './project/projectSchema';
 export * from './export/htmlExporter';
 export * from './export/postMessageApi';
 export * from './plugins/pluginManager';
+export * from './gallery/demoProjects';

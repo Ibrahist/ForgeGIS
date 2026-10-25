@@ -17,9 +17,15 @@ export interface FieldDefinition {
 export interface ForgeLayer {
   id: string;
   name: string;
-  sourceType: LayerSourceType;
+  sourceType?: LayerSourceType;
+  type?: LayerSourceType;
   sourceUrl?: string;
   data?: FeatureCollection;
+  source?: {
+    type?: string;
+    data?: FeatureCollection;
+    url?: string;
+  };
   visible: boolean;
   opacity: number; // 0.0 to 1.0
   zIndex: number;

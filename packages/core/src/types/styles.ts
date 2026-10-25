@@ -23,7 +23,7 @@ export interface ExtrusionConfig {
 export interface LayerStyle {
   // Vector basics
   color: string;
-  opacity: number;
+  opacity?: number;
   fillColor?: string;
   fillOpacity?: number;
   strokeColor?: string;

@@ -9,6 +9,8 @@ import {
   Share2,
   Blocks,
   Code2,
+  Compass,
+  Keyboard,
 } from 'lucide-react';
 import { useProjectStore } from '@forgegis/core';
 import { Button, Pill } from '@forgegis/ui';
@@ -19,6 +21,8 @@ export interface HeaderProps {
   onOpenToolbox?: () => void;
   onOpenPlugins?: () => void;
   onOpenPython?: () => void;
+  onOpenGallery?: () => void;
+  onOpenShortcuts?: () => void;
   onOpenShareModal?: (tab?: 'project' | 'html' | 'embed') => void;
   className?: string;
 }
@@ -29,6 +33,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenToolbox,
   onOpenPlugins,
   onOpenPython,
+  onOpenGallery,
+  onOpenShortcuts,
   onOpenShareModal,
   className = '',
 }) => {
@@ -119,6 +125,16 @@ export const Header: React.FC<HeaderProps> = ({
         >
           Python
         </Button>
+
+        <Button
+          variant="glass"
+          size="sm"
+          onClick={onOpenGallery}
+          icon={<Compass size={14} className="text-[#34d399]" />}
+          title="Open Coastal Open-Data Demo Projects Gallery"
+        >
+          Gallery
+        </Button>
       </div>
 
       {/* Right Actions */}
@@ -160,6 +176,14 @@ export const Header: React.FC<HeaderProps> = ({
           icon={<RotateCcw size={13} />}
           title="Reset initial view"
         />
+
+        <button
+          onClick={onOpenShortcuts}
+          className="p-1.5 text-[#9d9da8] hover:text-[#f5f5f7] hover:bg-white/5 rounded-full transition-colors"
+          title="Keyboard Shortcuts Cheat-Sheet (?)"
+        >
+          <Keyboard size={15} />
+        </button>
 
         <a
           href="https://github.com/opengeos/GeoLibre"

@@ -14,3 +14,4 @@ export * from './data/index';
 export * from './styling/classification';
 export * from './measure/measurements';
 export * from './store/projectStore';
+export * from './duckdb/duckdbEngine';

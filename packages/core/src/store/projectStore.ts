@@ -89,6 +89,26 @@ export interface ProjectState {
   // Zoom target trigger
   zoomTarget: { bounds?: [number, number, number, number]; center?: [number, number]; zoom?: number; timestamp: number } | null;
 
+  // SQL Workspace
+  activeSqlText: string;
+  isSqlExecuting: boolean;
+  lastQueryResult: {
+    columns: string[];
+    rows: Record<string, unknown>[];
+    durationMs: number;
+    rowCount: number;
+    geoJson?: GeoJSON.FeatureCollection;
+  } | null;
+  queryHistory: {
+    id: string;
+    sql: string;
+    timestamp: string;
+    durationMs: number;
+    rowCount: number;
+    status: 'success' | 'error';
+    errorMessage?: string;
+  }[];
+
   // Actions
   addLayer: (layer: ForgeLayer) => void;
   removeLayer: (layerId: string) => void;
@@ -99,6 +119,16 @@ export interface ProjectState {
   renameLayer: (layerId: string, newName: string) => void;
   setLayerStyle: (layerId: string, style: LayerStyle) => void;
   setSelectedLayer: (layerId: string | null) => void;
+  
+  // SQL Actions
+  setActiveSqlText: (sql: string) => void;
+  setSqlExecuting: (executing: boolean) => void;
+  setLastQueryResult: (result: ProjectState['lastQueryResult']) => void;
+  saveQuery: (name: string, sql: string) => void;
+  deleteSavedQuery: (id: string) => void;
+  addQueryHistory: (item: ProjectState['queryHistory'][0]) => void;
+  clearQueryHistory: () => void;
+  addQueryResultAsLayer: (layerName: string) => void;
   
   // View & Basemap
   setViewState: (view: Partial<ViewState>) => void;
@@ -147,6 +177,87 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   isToolboxOpen: false,
 
   zoomTarget: null,
+
+  // SQL State
+  activeSqlText: 'SELECT station_name, water_temp_c, wave_height_m, latitude, longitude\nFROM sf_bay_marine_sensor_buoys\nWHERE water_temp_c > 14.0\nORDER BY water_temp_c DESC;',
+  isSqlExecuting: false,
+  lastQueryResult: null,
+  queryHistory: [],
+
+  setActiveSqlText: (sql) => set({ activeSqlText: sql }),
+  setSqlExecuting: (executing) => set({ isSqlExecuting: executing }),
+  setLastQueryResult: (result) => set({ lastQueryResult: result }),
+  
+  saveQuery: (name, sql) =>
+    set((state) => ({
+      project: {
+        ...state.project,
+        sqlWorkspace: {
+          ...state.project.sqlWorkspace,
+          queries: [
+            ...state.project.sqlWorkspace.queries,
+            {
+              id: 'query_' + Date.now(),
+              name,
+              sql,
+              createdAt: new Date().toISOString(),
+            },
+          ],
+        },
+      },
+    })),
+
+  deleteSavedQuery: (id) =>
+    set((state) => ({
+      project: {
+        ...state.project,
+        sqlWorkspace: {
+          ...state.project.sqlWorkspace,
+          queries: state.project.sqlWorkspace.queries.filter((q) => q.id !== id),
+        },
+      },
+    })),
+
+  addQueryHistory: (item) =>
+    set((state) => ({
+      queryHistory: [item, ...state.queryHistory.slice(0, 49)], // Keep up to 50 items
+    })),
+
+  clearQueryHistory: () => set({ queryHistory: [] }),
+
+  addQueryResultAsLayer: (layerName) => {
+    const res = get().lastQueryResult;
+    if (!res || !res.geoJson) return;
+
+    const layerId = 'sql_layer_' + Date.now();
+    const color = '#38bdf8'; // Ocean cyan
+
+    const newLayer: ForgeLayer = {
+      id: layerId,
+      name: layerName || 'SQL Query Result',
+      sourceType: 'sql-result',
+      data: res.geoJson,
+      visible: true,
+      opacity: 0.9,
+      zIndex: 1,
+      fields: res.columns.map((c) => ({
+        name: c,
+        type: typeof res.rows[0]?.[c] === 'number' ? 'number' : 'string',
+      })),
+      featureCount: res.rowCount,
+      style: {
+        color,
+        fillColor: color,
+        opacity: 0.9,
+        pointRadius: 6,
+        strokeColor: '#0a0a0c',
+        strokeWidth: 1.5,
+      },
+    };
+
+    get().addLayer(newLayer);
+    get().zoomToLayer(layerId);
+  },
 
   addLayer: (layer) =>
     set((state) => ({

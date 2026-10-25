@@ -13,6 +13,7 @@ import {
   StyleEditor,
   Legend,
   Modal,
+  SqlWorkspace,
 } from '@forgegis/ui';
 import { Header } from './components/Header';
 import { MapCanvas } from './components/MapCanvas';
@@ -25,6 +26,8 @@ export const App: React.FC = () => {
     setAddLayerOpen,
     isStyleEditorOpen,
     closeStyleEditor,
+    isSqlEditorOpen,
+    setSqlEditorOpen,
     addLayer,
     zoomToLayer,
   } = useProjectStore();
@@ -62,7 +65,10 @@ export const App: React.FC = () => {
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-[#0a0a0c]">
       {/* Top Header */}
-      <Header onOpenAddLayer={() => setAddLayerOpen(true)} />
+      <Header
+        onOpenAddLayer={() => setAddLayerOpen(true)}
+        onOpenSqlWorkspace={() => setSqlEditorOpen(true)}
+      />
 
       {/* Main Workspace Body */}
       <div className="flex-1 relative flex overflow-hidden">
@@ -105,6 +111,17 @@ export const App: React.FC = () => {
 
       {/* Bottom Attribute Table Drawer */}
       <AttributeTable />
+
+      {/* Spatial SQL Workspace Modal */}
+      <Modal
+        isOpen={isSqlEditorOpen}
+        onClose={() => setSqlEditorOpen(false)}
+        title="DuckDB-WASM Spatial SQL"
+        subtitle="Execute high-performance analytical queries and map results client-side"
+        size="xl"
+      >
+        <SqlWorkspace />
+      </Modal>
 
       {/* Style Editor Modal */}
       <Modal

@@ -12,6 +12,7 @@ export * from './components/StyleEditor';
 export * from './components/Legend';
 export * from './components/SqlWorkspace';
 export * from './components/Toolbox';
+export * from './components/ProjectShareModal';
 
 import './styles/tokens.css';
 import './styles/theme.css';

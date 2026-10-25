@@ -18,3 +18,6 @@ export * from './duckdb/duckdbEngine';
 export * from './tools/toolRegistry';
 export * from './tools/toolRunner';
 export * from './tools/deepLink';
+export * from './project/projectSchema';
+export * from './export/htmlExporter';
+export * from './export/postMessageApi';

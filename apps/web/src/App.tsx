@@ -4,7 +4,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
-import { useProjectStore, loadSpatialFile, parseToolDeepLink } from '@forgegis/core';
+import { useProjectStore, loadSpatialFile, parseToolDeepLink, setupPostMessageBridge } from '@forgegis/core';
 import {
   LayersPanel,
   BasemapSwitcher,
@@ -15,6 +15,7 @@ import {
   Modal,
   SqlWorkspace,
   Toolbox,
+  ProjectShareModal,
 } from '@forgegis/ui';
 import { Header } from './components/Header';
 import { MapCanvas } from './components/MapCanvas';
@@ -33,14 +34,47 @@ export const App: React.FC = () => {
     setToolboxOpen,
     addLayer,
     zoomToLayer,
+    toggleLayerVisibility,
+    setLayerOpacity,
+    setViewState,
   } = useProjectStore();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [shareModalTab, setShareModalTab] = useState<'project' | 'html' | 'embed'>('project');
   const [deepLink, setDeepLink] = useState<{
     toolId: string;
     parameters: Record<string, unknown>;
     autorun: boolean;
   } | null>(null);
+
+  // Set up iframe postMessage bridge
+  useEffect(() => {
+    const cleanup = setupPostMessageBridge({
+      setLayerVisibility: (layerId, visible) => {
+        const layer = project.layers.find((l) => l.id === layerId);
+        if (layer && layer.visible !== visible) {
+          toggleLayerVisibility(layerId);
+        }
+      },
+      setLayerOpacity: (layerId, opacity) => {
+        setLayerOpacity(layerId, opacity);
+      },
+      flyTo: (params) => {
+        setViewState({
+          longitude: params.center[0],
+          latitude: params.center[1],
+          zoom: params.zoom ?? project.view.zoom,
+          pitch: params.pitch ?? project.view.pitch,
+          bearing: params.bearing ?? project.view.bearing,
+        });
+      },
+      getView: () => project.view,
+      getProject: () => project,
+    });
+
+    return cleanup;
+  }, [project, toggleLayerVisibility, setLayerOpacity, setViewState]);
 
   // Check URL query parameters for deep linking
   useEffect(() => {
@@ -88,6 +122,10 @@ export const App: React.FC = () => {
         onOpenAddLayer={() => setAddLayerOpen(true)}
         onOpenSqlWorkspace={() => setSqlEditorOpen(true)}
         onOpenToolbox={() => setToolboxOpen(true)}
+        onOpenShareModal={(tab) => {
+          setShareModalTab(tab || 'project');
+          setIsShareModalOpen(true);
+        }}
       />
 
       {/* Main Workspace Body */}
@@ -168,6 +206,13 @@ export const App: React.FC = () => {
       >
         <StyleEditor />
       </Modal>
+
+      {/* Project Sharing & Export Modal */}
+      <ProjectShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        initialTab={shareModalTab}
+      />
 
       {/* Add Layer Modal */}
       <AddLayerModal

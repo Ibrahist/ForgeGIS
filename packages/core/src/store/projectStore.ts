@@ -158,6 +158,7 @@ export interface ProjectState {
   // Project lifecycle
   loadProject: (project: ForgeProject) => void;
   exportProject: () => ForgeProject;
+  updateProjectMetadata: (patch: { title?: string; description?: string }) => void;
 }
 
 export const useProjectStore = create<ProjectState>((set, get) => ({
@@ -458,4 +459,14 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
     }),
 
   exportProject: () => get().project,
+
+  updateProjectMetadata: (patch) =>
+    set((state) => ({
+      project: {
+        ...state.project,
+        title: patch.title !== undefined ? patch.title : state.project.title,
+        description: patch.description !== undefined ? patch.description : state.project.description,
+        updatedAt: new Date().toISOString(),
+      },
+    })),
 }));

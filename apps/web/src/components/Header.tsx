@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Plus,
   Terminal,
@@ -7,6 +6,7 @@ import {
   Upload,
   RotateCcw,
   BookOpen,
+  Share2,
 } from 'lucide-react';
 import { useProjectStore } from '@forgegis/core';
 import { Button, Pill } from '@forgegis/ui';
@@ -15,6 +15,7 @@ export interface HeaderProps {
   onOpenAddLayer: () => void;
   onOpenSqlWorkspace?: () => void;
   onOpenToolbox?: () => void;
+  onOpenShareModal?: (tab?: 'project' | 'html' | 'embed') => void;
   className?: string;
 }
 
@@ -22,39 +23,10 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenAddLayer,
   onOpenSqlWorkspace,
   onOpenToolbox,
+  onOpenShareModal,
   className = '',
 }) => {
-  const { project, setViewState, exportProject, loadProject } = useProjectStore();
-
-  const handleSaveProject = () => {
-    const proj = exportProject();
-    const jsonStr = JSON.stringify(proj, null, 2);
-    const blob = new Blob([jsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${project.title.toLowerCase().replace(/\s+/g, '_')}.project.json`;
-    a.click();
-  };
-
-  const handleOpenProjectFile = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json,.project.json';
-    input.onchange = async (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (file) {
-        try {
-          const text = await file.text();
-          const parsed = JSON.parse(text);
-          loadProject(parsed);
-        } catch (err) {
-          alert('Failed to load project file: ' + err);
-        }
-      }
-    };
-    input.click();
-  };
+  const { setViewState } = useProjectStore();
 
   const handleResetView = () => {
     setViewState({
@@ -128,9 +100,9 @@ export const Header: React.FC<HeaderProps> = ({
         <Button
           variant="subtle"
           size="sm"
-          onClick={handleOpenProjectFile}
+          onClick={() => onOpenShareModal?.('project')}
           icon={<Upload size={13} />}
-          title="Open .project.json"
+          title="Open or Import .project.json"
         >
           Open
         </Button>
@@ -138,11 +110,21 @@ export const Header: React.FC<HeaderProps> = ({
         <Button
           variant="subtle"
           size="sm"
-          onClick={handleSaveProject}
+          onClick={() => onOpenShareModal?.('project')}
           icon={<Download size={13} />}
           title="Save .project.json"
         >
           Save
+        </Button>
+
+        <Button
+          variant="glass"
+          size="sm"
+          onClick={() => onOpenShareModal?.('html')}
+          icon={<Share2 size={13} className="text-[#e3b450]" />}
+          title="Export Standalone HTML Report or Embed Iframe"
+        >
+          Share
         </Button>
 
         <Button

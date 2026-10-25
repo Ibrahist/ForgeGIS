@@ -7,6 +7,7 @@ import {
   RotateCcw,
   BookOpen,
   Share2,
+  Blocks,
 } from 'lucide-react';
 import { useProjectStore } from '@forgegis/core';
 import { Button, Pill } from '@forgegis/ui';
@@ -15,6 +16,7 @@ export interface HeaderProps {
   onOpenAddLayer: () => void;
   onOpenSqlWorkspace?: () => void;
   onOpenToolbox?: () => void;
+  onOpenPlugins?: () => void;
   onOpenShareModal?: (tab?: 'project' | 'html' | 'embed') => void;
   className?: string;
 }
@@ -23,6 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenAddLayer,
   onOpenSqlWorkspace,
   onOpenToolbox,
+  onOpenPlugins,
   onOpenShareModal,
   className = '',
 }) => {
@@ -92,6 +95,16 @@ export const Header: React.FC<HeaderProps> = ({
           title="Open Geoprocessing Toolbox"
         >
           Toolbox
+        </Button>
+
+        <Button
+          variant="glass"
+          size="sm"
+          onClick={onOpenPlugins}
+          icon={<Blocks size={14} className="text-[#a78bfa]" />}
+          title="Open Plugin Ecosystem Manager"
+        >
+          Plugins
         </Button>
       </div>
 

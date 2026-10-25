@@ -32,6 +32,13 @@ export interface PluginContext {
     get: (id: string) => ForgeLayer | undefined;
     add: (layer: ForgeLayer) => void;
     remove: (id: string) => void;
+    update: (id: string, patch: Partial<ForgeLayer>) => void;
+  };
+  sql?: {
+    execute: (query: string) => Promise<{ columns: string[]; rows: unknown[][]; durationMs: number }>;
+  };
+  ui?: {
+    showNotification: (message: string, type?: 'info' | 'success' | 'warning' | 'error') => void;
   };
 }
 

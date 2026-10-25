@@ -4,7 +4,13 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
-import { useProjectStore, loadSpatialFile, parseToolDeepLink, setupPostMessageBridge } from '@forgegis/core';
+import {
+  useProjectStore,
+  loadSpatialFile,
+  parseToolDeepLink,
+  setupPostMessageBridge,
+  PluginManager,
+} from '@forgegis/core';
 import {
   LayersPanel,
   BasemapSwitcher,
@@ -16,7 +22,9 @@ import {
   SqlWorkspace,
   Toolbox,
   ProjectShareModal,
+  PluginManagerModal,
 } from '@forgegis/ui';
+import { ALL_BUILTIN_PLUGINS, TimeSliderWidget } from '@forgegis/plugins';
 import { Header } from './components/Header';
 import { MapCanvas } from './components/MapCanvas';
 import { AddLayerModal } from './components/AddLayerModal';
@@ -33,6 +41,8 @@ export const App: React.FC = () => {
     isToolboxOpen,
     setToolboxOpen,
     addLayer,
+    removeLayer,
+    updateLayer,
     zoomToLayer,
     toggleLayerVisibility,
     setLayerOpacity,
@@ -41,12 +51,44 @@ export const App: React.FC = () => {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isPluginsOpen, setIsPluginsOpen] = useState(false);
   const [shareModalTab, setShareModalTab] = useState<'project' | 'html' | 'embed'>('project');
   const [deepLink, setDeepLink] = useState<{
     toolId: string;
     parameters: Record<string, unknown>;
     autorun: boolean;
   } | null>(null);
+
+  // Plugin Manager instance
+  const pluginManagerRef = React.useRef<PluginManager | null>(null);
+  if (!pluginManagerRef.current) {
+    const pm = new PluginManager({
+      getView: () => project.view,
+      setView: (v) => setViewState(v),
+      getLayers: () => project.layers,
+      getLayer: (id) => project.layers.find((l) => l.id === id),
+      addLayer: (l) => addLayer(l),
+      removeLayer: (id) => removeLayer(id),
+      updateLayer: (id, patch) => updateLayer(id, patch),
+    });
+    ALL_BUILTIN_PLUGINS.forEach((p) => pm.registerPlugin(p));
+    pluginManagerRef.current = pm;
+  }
+
+  // Keep plugin host hooks updated with latest store state
+  useEffect(() => {
+    if (pluginManagerRef.current) {
+      pluginManagerRef.current.updateHooks({
+        getView: () => project.view,
+        setView: (v) => setViewState(v),
+        getLayers: () => project.layers,
+        getLayer: (id) => project.layers.find((l) => l.id === id),
+        addLayer: (l) => addLayer(l),
+        removeLayer: (id) => removeLayer(id),
+        updateLayer: (id, patch) => updateLayer(id, patch),
+      });
+    }
+  }, [project, setViewState, addLayer, removeLayer, updateLayer]);
 
   // Set up iframe postMessage bridge
   useEffect(() => {
@@ -122,6 +164,7 @@ export const App: React.FC = () => {
         onOpenAddLayer={() => setAddLayerOpen(true)}
         onOpenSqlWorkspace={() => setSqlEditorOpen(true)}
         onOpenToolbox={() => setToolboxOpen(true)}
+        onOpenPlugins={() => setIsPluginsOpen(true)}
         onOpenShareModal={(tab) => {
           setShareModalTab(tab || 'project');
           setIsShareModalOpen(true);
@@ -164,6 +207,9 @@ export const App: React.FC = () => {
           <div className="absolute bottom-6 right-4 z-20">
             <Legend />
           </div>
+
+          {/* Time Series Temporal Playback Widget */}
+          <TimeSliderWidget />
         </main>
       </div>
 
@@ -213,6 +259,15 @@ export const App: React.FC = () => {
         onClose={() => setIsShareModalOpen(false)}
         initialTab={shareModalTab}
       />
+
+      {/* Plugin Ecosystem Modal */}
+      {pluginManagerRef.current && (
+        <PluginManagerModal
+          isOpen={isPluginsOpen}
+          onClose={() => setIsPluginsOpen(false)}
+          pluginManager={pluginManagerRef.current}
+        />
+      )}
 
       {/* Add Layer Modal */}
       <AddLayerModal

@@ -13,6 +13,7 @@ export * from './components/Legend';
 export * from './components/SqlWorkspace';
 export * from './components/Toolbox';
 export * from './components/ProjectShareModal';
+export * from './components/PluginManagerModal';
 
 import './styles/tokens.css';
 import './styles/theme.css';

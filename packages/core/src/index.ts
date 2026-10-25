@@ -21,3 +21,4 @@ export * from './tools/deepLink';
 export * from './project/projectSchema';
 export * from './export/htmlExporter';
 export * from './export/postMessageApi';
+export * from './plugins/pluginManager';

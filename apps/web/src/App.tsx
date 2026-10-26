@@ -224,7 +224,7 @@ export const App: React.FC = () => {
         {/* Left Collapsible Layers Dock with Mobile Slide-over Overlay */}
         <aside
           className={`fixed md:relative z-40 md:z-20 h-[calc(100vh-56px)] transition-all duration-300 flex border-r border-white/8 bg-[#0a0a0c] shadow-2xl md:shadow-none ${
-            isSidebarOpen ? 'w-80 left-0' : 'w-0 -left-80 md:left-0'
+            isSidebarOpen ? 'w-80 left-0' : 'w-0 left-0'
           }`}
         >
           <div className="w-80 h-full overflow-hidden flex flex-col">

@@ -8,14 +8,14 @@ export const DEFAULT_BASEMAPS: BasemapConfig[] = [
     id: 'carto-dark',
     name: 'Carto Dark Matter',
     type: 'raster',
-    url: 'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png',
+    url: 'https://basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png',
     attribution: '&copy; CartoDB &copy; OpenStreetMap contributors',
   },
   {
     id: 'carto-positron',
     name: 'Carto Positron',
     type: 'raster',
-    url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
+    url: 'https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png',
     attribution: '&copy; CartoDB &copy; OpenStreetMap contributors',
   },
   {

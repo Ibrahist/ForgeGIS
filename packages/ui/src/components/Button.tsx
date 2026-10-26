@@ -9,6 +9,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 export const Button: React.FC<ButtonProps> = ({
+  type = 'button',
   variant = 'glass',
   size = 'md',
   pill = true,
@@ -37,12 +38,13 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      type={type}
       className={`fg-pill-button ${variantClass} ${sizeStyles} ${rounded} ${disabledStyle} ${className}`}
       disabled={disabled}
       {...props}
     >
-      {icon && <span className="flex-shrink-0 inline-flex items-center">{icon}</span>}
-      {children && <span>{children}</span>}
+      {icon && <span className="flex-shrink-0 inline-flex items-center pointer-events-none">{icon}</span>}
+      {children && <span className="pointer-events-none">{children}</span>}
     </button>
   );
 };

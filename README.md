@@ -8,9 +8,10 @@
 [![AnyWidget](https://img.shields.io/badge/Jupyter-AnyWidget-orange.svg?logo=jupyter)](https://anywidget.dev/)
 [![CI](https://github.com/opengeos/ForgeGIS/actions/workflows/ci.yml/badge.svg)](https://github.com/opengeos/ForgeGIS/actions)
 
+
 > **A local-first, cloud-native geospatial exploration platform that runs in the browser, as a desktop app, and inside Jupyter notebooks from one shared codebase.**
 
-Inspired by [GeoLibre](https://github.com/opengeos/GeoLibre) and crafted with the dark aesthetic, curved pill controls, and hairline borders of [VoiceStudio.sh](https://voicestudio.sh/).
+Inspired by the open‑source community.
 
 ---
 
@@ -92,8 +93,8 @@ Install and use ForgeGIS inside JupyterLab, VS Code Notebooks, or Google Colab:
 ```python
 from forgegis import ForgeMap
 
-# Initialize map centered on coastal study region
-m = ForgeMap(center=(-122.38, 37.8), zoom=11.2)
+# Initialize map centered on East Africa study region
+m = ForgeMap(center=(37.5, -1.5), zoom=6.0)
 
 # Add GeoJSON layer with custom styling
 m.add_layer(

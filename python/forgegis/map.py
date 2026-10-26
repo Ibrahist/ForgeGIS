@@ -69,8 +69,8 @@ class ForgeMap(_BaseWidget):
 
     def __init__(
         self,
-        center: tuple[float, float] = (-122.35, 37.8),
-        zoom: float = 11.0,
+        center: tuple[float, float] = (37.5, -1.5),
+        zoom: float = 6.0,
         pitch: float = 0.0,
         bearing: float = 0.0,
         basemap: str = "carto-dark",

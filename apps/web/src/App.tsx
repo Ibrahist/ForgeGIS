@@ -31,6 +31,7 @@ import { ALL_BUILTIN_PLUGINS, TimeSliderWidget } from '@forgegis/plugins';
 import { Header } from './components/Header';
 import { MapCanvas } from './components/MapCanvas';
 import { AddLayerModal } from './components/AddLayerModal';
+import { ApiKeysModal } from './components/ApiKeysModal';
 
 export const App: React.FC = () => {
   const {
@@ -58,6 +59,7 @@ export const App: React.FC = () => {
   const [isPythonOpen, setIsPythonOpen] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
+  const [isApiKeysOpen, setIsApiKeysOpen] = useState(false);
   const [shareModalTab, setShareModalTab] = useState<'project' | 'html' | 'embed'>('project');
   const [deepLink, setDeepLink] = useState<{
     toolId: string;
@@ -142,13 +144,13 @@ export const App: React.FC = () => {
         try {
           const sensorsLayer = await loadSpatialFile(
             '/samples/coastal_sensors.csv',
-            'SF Bay Marine Sensor Buoys'
+            'East Africa Marine Sensor Buoys'
           );
           addLayer(sensorsLayer);
 
           const coastlineLayer = await loadSpatialFile(
             '/samples/coastline.geojson',
-            'Coastal Flood & Erosion Risk Zones'
+            'East Africa Coastal & Marine Resilience Zones'
           );
           addLayer(coastlineLayer);
 
@@ -199,7 +201,13 @@ export const App: React.FC = () => {
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    const handleOpenApiKeys = () => setIsApiKeysOpen(true);
+    window.addEventListener('forgegis-open-apikeys', handleOpenApiKeys);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('forgegis-open-apikeys', handleOpenApiKeys);
+    };
   }, [isSqlEditorOpen, isToolboxOpen, setSqlEditorOpen, setToolboxOpen, setAddLayerOpen]);
 
   return (
@@ -213,6 +221,7 @@ export const App: React.FC = () => {
         onOpenPython={() => setIsPythonOpen(true)}
         onOpenGallery={() => setIsGalleryOpen(true)}
         onOpenShortcuts={() => setIsShortcutsOpen(true)}
+        onOpenApiKeys={() => setIsApiKeysOpen(true)}
         onOpenShareModal={(tab) => {
           setShareModalTab(tab || 'project');
           setIsShareModalOpen(true);
@@ -344,6 +353,12 @@ export const App: React.FC = () => {
       <AddLayerModal
         isOpen={isAddLayerOpen}
         onClose={() => setAddLayerOpen(false)}
+      />
+
+      {/* API Keys & Basemap Providers Modal */}
+      <ApiKeysModal
+        isOpen={isApiKeysOpen}
+        onClose={() => setIsApiKeysOpen(false)}
       />
     </div>
   );

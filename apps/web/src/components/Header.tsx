@@ -11,8 +11,9 @@ import {
   Code2,
   Compass,
   Keyboard,
+  Key,
 } from 'lucide-react';
-import { useProjectStore } from '@forgegis/core';
+import { useProjectStore, INITIAL_VIEW_STATE } from '@forgegis/core';
 import { Button, Pill } from '@forgegis/ui';
 
 export interface HeaderProps {
@@ -23,6 +24,7 @@ export interface HeaderProps {
   onOpenPython?: () => void;
   onOpenGallery?: () => void;
   onOpenShortcuts?: () => void;
+  onOpenApiKeys?: () => void;
   onOpenShareModal?: (tab?: 'project' | 'html' | 'embed') => void;
   className?: string;
 }
@@ -35,19 +37,14 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenPython,
   onOpenGallery,
   onOpenShortcuts,
+  onOpenApiKeys,
   onOpenShareModal,
   className = '',
 }) => {
   const { setViewState } = useProjectStore();
 
   const handleResetView = () => {
-    setViewState({
-      longitude: -122.4194,
-      latitude: 37.7749,
-      zoom: 11,
-      pitch: 0,
-      bearing: 0,
-    });
+    setViewState(INITIAL_VIEW_STATE);
   };
 
   return (
@@ -57,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Brand & Title */}
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-2.5">
-          <img src="/logo.svg" alt="ForgeGIS" className="w-8 h-8 rounded-xl shadow-md" />
+          <img src="/ForgeGIS.png" alt="ForgeGIS" className="w-8 h-8 rounded-lg shadow-md object-contain" />
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <span className="text-sm font-bold tracking-tight text-[#f5f5f7]">
@@ -71,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         <div className="hidden md:flex items-center">
-          <Pill label="Coastal & Marine Intelligence" variant="rose" dot />
+          <Pill label="East Africa Marine & Coastal Intelligence" variant="rose" dot />
         </div>
       </div>
 
@@ -176,6 +173,14 @@ export const Header: React.FC<HeaderProps> = ({
           icon={<RotateCcw size={13} />}
           title="Reset initial view"
         />
+
+        <button
+          onClick={onOpenApiKeys}
+          className="p-1.5 text-[#9d9da8] hover:text-[#f47fa3] hover:bg-white/5 rounded-full transition-colors"
+          title="API Keys & Basemap Providers (CARTO, Mapbox)"
+        >
+          <Key size={15} />
+        </button>
 
         <button
           onClick={onOpenShortcuts}

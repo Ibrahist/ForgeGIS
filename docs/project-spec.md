@@ -17,11 +17,11 @@ ForgeGIS defines a portable, open, and versioned JSON schema for saving and shar
   "createdAt": "2026-10-25T12:00:00Z",
   "updatedAt": "2026-10-25T12:00:00Z",
   "view": {
-    "longitude": -122.38,
-    "latitude": 37.8,
-    "zoom": 11.2,
-    "pitch": 25,
-    "bearing": 15,
+    "longitude": 37.5,
+    "latitude": -1.5,
+    "zoom": 6.0,
+    "pitch": 0,
+    "bearing": 0,
     "projection": "mercator",
     "terrain3d": {
       "enabled": false,

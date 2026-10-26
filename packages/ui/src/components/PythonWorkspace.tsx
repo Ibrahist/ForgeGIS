@@ -11,7 +11,7 @@ export const SAMPLE_PYTHON_SCRIPTS = [
 import json
 import random
 
-center_lon, center_lat = -122.4, 37.8
+center_lon, center_lat = 39.65, -4.05
 features = []
 
 for i in range(1, 11):
@@ -51,8 +51,8 @@ for layer in layers:
   {
     name: 'Camera FlyTo via Python',
     code: `# Move the map camera using Python
-forgegis.set_view(-122.42, 37.78, 13.5)
-print("Camera animated to Golden Gate & SF Bay entrance.")
+forgegis.set_view(39.67, -4.04, 13.0)
+print("Camera animated to Mombasa Old Port & Kilindini Channel, East Africa.")
 `,
   },
 ];
@@ -186,13 +186,13 @@ out_val
               features: [
                 {
                   type: 'Feature',
-                  properties: { station_id: 'WQ-SAMPLE-001', salinity_psu: 31.2 },
-                  geometry: { type: 'Point', coordinates: [-122.41, 37.81] },
+                  properties: { station_id: 'WQ-SAMPLE-001', salinity_psu: 35.2 },
+                  geometry: { type: 'Point', coordinates: [39.66, -4.06] },
                 },
                 {
                   type: 'Feature',
-                  properties: { station_id: 'WQ-SAMPLE-002', salinity_psu: 33.4 },
-                  geometry: { type: 'Point', coordinates: [-122.39, 37.79] },
+                  properties: { station_id: 'WQ-SAMPLE-002', salinity_psu: 34.8 },
+                  geometry: { type: 'Point', coordinates: [39.68, -4.03] },
                 },
               ],
             }),
@@ -201,8 +201,8 @@ out_val
           );
           setOutput('Successfully generated 10 water quality stations and added to map!\n[Pyodide WASM bridge]');
         } else if (code.includes('set_view')) {
-          bridge.set_view(-122.42, 37.78, 13.5);
-          setOutput('Camera animated to Golden Gate & SF Bay entrance.\n[Pyodide WASM bridge]');
+          bridge.set_view(39.67, -4.04, 13.0);
+          setOutput('Camera animated to Mombasa Old Port & Kilindini Channel, East Africa.\n[Pyodide WASM bridge]');
         } else {
           setOutput(`Total layers loaded in ForgeGIS: ${project.layers.length}\n${project.layers.map((l) => `• ${l.name} (${l.featureCount} features)`).join('\n')}`);
         }

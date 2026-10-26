@@ -7,6 +7,22 @@ import { useProjectStore, loadSpatialFile } from '@forgegis/core';
 const pmtilesProtocol = new Protocol();
 maplibregl.addProtocol('pmtiles', pmtilesProtocol.tile);
 
+export function resolveBasemapTileUrl(rawUrl: string): string {
+  let key = '';
+  if (typeof window !== 'undefined') {
+    key = localStorage.getItem('forgegis_carto_api_key') || localStorage.getItem('carto_api_key') || '';
+  }
+  if (!key && typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_CARTO_API_KEY) {
+    key = (import.meta as any).env.VITE_CARTO_API_KEY;
+  }
+
+  if (key && rawUrl.includes('cartocdn.com') && !rawUrl.includes('key=')) {
+    const sep = rawUrl.includes('?') ? '&' : '?';
+    return `${rawUrl}${sep}key=${encodeURIComponent(key.trim())}`;
+  }
+  return rawUrl;
+}
+
 export interface MapCanvasProps {
   className?: string;
 }
@@ -27,10 +43,23 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({ className = '' }) => {
   } = useProjectStore();
 
   const [isDragOver, setIsDragOver] = useState(false);
+  const [apiKeyVersion, setApiKeyVersion] = useState(0);
+
+  useEffect(() => {
+    const onKeyChanged = () => setApiKeyVersion((v) => v + 1);
+    window.addEventListener('forgegis-apikeys-updated', onKeyChanged);
+    window.addEventListener('storage', onKeyChanged);
+    return () => {
+      window.removeEventListener('forgegis-apikeys-updated', onKeyChanged);
+      window.removeEventListener('storage', onKeyChanged);
+    };
+  }, []);
 
   // Initialize MapLibre
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
+
+    const initialTiles = [resolveBasemapTileUrl(project.basemap.url)];
 
     const map = new MapLibreMap({
       container: mapContainerRef.current,
@@ -39,7 +68,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({ className = '' }) => {
         sources: {
           'basemap-source': {
             type: 'raster',
-            tiles: [project.basemap.url],
+            tiles: initialTiles,
             tileSize: 256,
             attribution: project.basemap.attribution || '',
           },
@@ -140,15 +169,16 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({ className = '' }) => {
     const map = mapRef.current;
     if (!map || !map.isStyleLoaded()) return;
 
+    const resolvedUrl = resolveBasemapTileUrl(project.basemap.url);
     const source = map.getSource('basemap-source') as maplibregl.RasterTileSource;
-    if (source && source.tiles && source.tiles[0] !== project.basemap.url) {
+    if (source && source.tiles && source.tiles[0] !== resolvedUrl) {
       // Remove existing basemap layer and source and re-add
       if (map.getLayer('basemap-layer')) map.removeLayer('basemap-layer');
       if (map.getSource('basemap-source')) map.removeSource('basemap-source');
 
       map.addSource('basemap-source', {
         type: 'raster',
-        tiles: [project.basemap.url],
+        tiles: [resolvedUrl],
         tileSize: 256,
         attribution: project.basemap.attribution || '',
       });
@@ -166,7 +196,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({ className = '' }) => {
         firstLayer
       );
     }
-  }, [project.basemap]);
+  }, [project.basemap, apiKeyVersion]);
 
   // Sync Projection
   useEffect(() => {

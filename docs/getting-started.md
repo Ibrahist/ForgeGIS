@@ -12,7 +12,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/opengeos/GeoLibre.git forgegis
+git clone https://github.com/yourorg/ForgeGIS.git forgegis
 cd forgegis
 
 # Install all workspace dependencies

@@ -47,7 +47,7 @@ test.describe('Milestone 6: Multi-Platform (Python WASM & Mobile Touch)', () => 
     await dialog.getByRole('button', { name: 'Camera FlyTo via Python' }).click();
 
     const editor = dialog.getByTestId('python-code-editor');
-    await expect(editor).toContainText('forgegis.set_view(-122.42, 37.78, 13.5)');
+    await expect(editor).toContainText('forgegis.set_view(39.67, -4.04, 13.0)');
 
     // Run preset
     await dialog.getByTestId('run-python-btn').click();

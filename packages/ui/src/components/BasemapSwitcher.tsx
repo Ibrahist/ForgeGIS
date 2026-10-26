@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Globe, Map, Mountain, Compass, ChevronDown } from 'lucide-react';
+import { Globe, Map, Mountain, Compass, ChevronDown, Key } from 'lucide-react';
 import { useProjectStore, DEFAULT_BASEMAPS } from '@forgegis/core';
 import { Button } from './Button';
 
@@ -62,6 +62,17 @@ export const BasemapSwitcher: React.FC<BasemapSwitcherProps> = ({ className = ''
                 </button>
               );
             })}
+            <div className="h-[1px] bg-white/10 my-0.5" />
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                window.dispatchEvent(new CustomEvent('forgegis-open-apikeys'));
+              }}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] text-[#f47fa3] hover:bg-[#f47fa3]/10 transition-colors w-full text-left font-medium"
+            >
+              <Key size={12} />
+              <span>Configure API Keys...</span>
+            </button>
           </div>
         )}
       </div>

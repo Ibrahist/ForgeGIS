@@ -14,26 +14,26 @@ export const DEMO_PROJECTS_GALLERY: DemoProjectCard[] = [
   // 1. SF Bay Sea Level Rise & Coastal Flooding Risk
   {
     id: 'sf-bay-slr',
-    title: 'SF Bay Coastal Flooding & Sea Level Rise',
+    title: 'East Africa Coastal & Marine Resilience',
     domain: 'Coastal Monitoring',
-    location: 'San Francisco, CA',
-    description: 'High-resolution storm surge modeling, NOAA tide telemetry, and coastal bluff erosion vulnerability.',
-    tags: ['Sea Level Rise', 'NOAA Buoys', 'Erosion', 'Pacific Coast'],
+    location: 'Mombasa & Swahili Coast, East Africa',
+    description: 'Swahili coast marine telemetry, coral reef conservation, and mangrove storm surge protection across Kenya and Tanzania.',
+    tags: ['East Africa', 'Marine Telemetry', 'Mangroves', 'Coral Reefs', 'Swahili Coast'],
     project: {
       $schema: 'https://forgegis.org/schemas/v1/project.json',
       version: '1.0.0',
       id: 'sf-bay-slr',
-      title: 'SF Bay Coastal Flooding & Sea Level Rise',
-      description: 'NOAA buoy telemetry, coastal bluff erosion vulnerability and flood risk zones.',
+      title: 'East Africa Coastal & Marine Resilience',
+      description: 'Swahili coast marine telemetry, coral reef conservation, and mangrove storm surge protection.',
       domain: 'coastal-monitoring',
       createdAt: '2026-10-25T00:00:00Z',
       updatedAt: '2026-10-25T00:00:00Z',
       view: {
-        longitude: -122.38,
-        latitude: 37.8,
-        zoom: 11.2,
-        pitch: 25,
-        bearing: 15,
+        longitude: 39.5,
+        latitude: -4.5,
+        zoom: 7.0,
+        pitch: 20,
+        bearing: 0,
         projection: 'mercator',
         terrain3d: { enabled: false, exaggeration: 1 },
       },
@@ -46,7 +46,7 @@ export const DEMO_PROJECTS_GALLERY: DemoProjectCard[] = [
       layers: [
         {
           id: 'sf-sensors',
-          name: 'SF Bay Marine Sensor Buoys',
+          name: 'East Africa Marine Sensor Buoys',
           sourceType: 'csv',
           type: 'csv',
           sourceUrl: '/samples/coastal_sensors.csv',
@@ -58,16 +58,16 @@ export const DEMO_PROJECTS_GALLERY: DemoProjectCard[] = [
           data: {
             type: 'FeatureCollection',
             features: [
-              { type: 'Feature', properties: { station_id: '46026', wave_height_m: 2.8, water_temp_c: 12.4 }, geometry: { type: 'Point', coordinates: [-122.84, 37.75] } },
-              { type: 'Feature', properties: { station_id: 'FTPC1', wave_height_m: 0.8, water_temp_c: 13.6 }, geometry: { type: 'Point', coordinates: [-122.46, 37.8] } },
-              { type: 'Feature', properties: { station_id: '46237', wave_height_m: 1.9, water_temp_c: 12.8 }, geometry: { type: 'Point', coordinates: [-122.42, 37.78] } },
+              { type: 'Feature', properties: { station_id: 'EAF-BUOY-01', wave_height_m: 1.4, water_temp_c: 28.4 }, geometry: { type: 'Point', coordinates: [39.72, -4.07] } },
+              { type: 'Feature', properties: { station_id: 'EAF-BUOY-02', wave_height_m: 0.8, water_temp_c: 29.1 }, geometry: { type: 'Point', coordinates: [39.25, -6.05] } },
+              { type: 'Feature', properties: { station_id: 'EAF-BUOY-04', wave_height_m: 1.8, water_temp_c: 27.9 }, geometry: { type: 'Point', coordinates: [40.95, -2.31] } },
             ],
           },
           style: { color: '#e3b450', strokeColor: '#ffffff', strokeWidth: 1.5, opacity: 0.9, pointRadius: 7 },
         },
         {
           id: 'sf-coastline',
-          name: 'Coastal Flood & Erosion Risk Zones',
+          name: 'East Africa Coastal & Marine Resilience Zones',
           sourceType: 'geojson',
           type: 'geojson',
           sourceUrl: '/samples/coastline.geojson',
@@ -79,8 +79,8 @@ export const DEMO_PROJECTS_GALLERY: DemoProjectCard[] = [
           data: {
             type: 'FeatureCollection',
             features: [
-              { type: 'Feature', properties: { zone_name: 'Ocean Beach Bluffs', risk_level: 'High' }, geometry: { type: 'Polygon', coordinates: [[[-122.52, 37.7], [-122.5, 37.7], [-122.5, 37.78], [-122.52, 37.78], [-122.52, 37.7]]] } },
-              { type: 'Feature', properties: { zone_name: 'Crissy Field Marsh', risk_level: 'Medium' }, geometry: { type: 'Polygon', coordinates: [[[-122.47, 37.8], [-122.44, 37.8], [-122.44, 37.81], [-122.47, 37.81], [-122.47, 37.8]]] } },
+              { type: 'Feature', properties: { zone_name: 'Lamu Mangrove Biosphere', risk_level: 'Critical' }, geometry: { type: 'Polygon', coordinates: [[[40.85, -2.15], [41.05, -2.15], [41.05, -2.42], [40.85, -2.42], [40.85, -2.15]]] } },
+              { type: 'Feature', properties: { zone_name: 'Mombasa Port & Sanctuary', risk_level: 'Moderate' }, geometry: { type: 'Polygon', coordinates: [[[39.62, -3.98], [39.78, -3.98], [39.78, -4.15], [39.62, -4.15], [39.62, -3.98]]] } },
             ],
           },
           style: { color: '#f47fa3', strokeColor: '#ffffff', strokeWidth: 2, opacity: 0.7 },

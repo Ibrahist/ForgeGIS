@@ -19,6 +19,13 @@ export const DEFAULT_BASEMAPS: BasemapConfig[] = [
     attribution: '&copy; CartoDB &copy; OpenStreetMap contributors',
   },
   {
+    id: 'esri-dark',
+    name: 'Esri Dark Gray (No Key Required)',
+    type: 'raster',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+  },
+  {
     id: 'osm',
     name: 'OpenStreetMap',
     type: 'raster',
@@ -35,9 +42,9 @@ export const DEFAULT_BASEMAPS: BasemapConfig[] = [
 ];
 
 export const INITIAL_VIEW_STATE: ViewState = {
-  longitude: -122.4194, // San Francisco Bay / Pacific Coastal Focus
-  latitude: 37.7749,
-  zoom: 11,
+  longitude: 37.5, // East Africa (Kenya, Tanzania, Uganda, Great Lakes & Swahili Coast)
+  latitude: -1.5,
+  zoom: 6.0,
   pitch: 0,
   bearing: 0,
   projection: 'mercator',
@@ -51,8 +58,8 @@ export const INITIAL_PROJECT: ForgeProject = {
   $schema: 'https://forgegis.dev/schemas/v1.0.0/project.json',
   version: '1.0.0',
   id: 'proj_default',
-  title: 'ForgeGIS Coastal Intelligence',
-  description: 'Local-first cloud-native geospatial exploration project',
+  title: 'ForgeGIS East Africa Geospatial Platform',
+  description: 'Local-first cloud-native geospatial exploration platform focused on East Africa',
   domain: 'coastal-monitoring',
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),

@@ -10,7 +10,7 @@ export interface AddLayerModalProps {
 
 export const AddLayerModal: React.FC<AddLayerModalProps> = ({ isOpen, onClose }) => {
   const { addLayer, zoomToLayer } = useProjectStore();
-  const [activeTab, setActiveTab] = useState<'upload' | 'url' | 'samples'>('samples');
+  const [activeTab, setActiveTab] = useState<'upload' | 'url' | 'samples' | 'shapefile'>('samples');
   const [urlInput, setUrlInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -89,6 +89,7 @@ export const AddLayerModal: React.FC<AddLayerModalProps> = ({ isOpen, onClose })
           tabs={[
             { id: 'samples', label: 'Coastal Demos', icon: <Database size={13} /> },
             { id: 'upload', label: 'Local File', icon: <Upload size={13} /> },
+            { id: 'shapefile', label: 'Shapefile', icon: <Upload size={13} /> },
             { id: 'url', label: 'Remote URL', icon: <Globe size={13} /> },
           ]}
           activeTab={activeTab}
@@ -114,7 +115,7 @@ export const AddLayerModal: React.FC<AddLayerModalProps> = ({ isOpen, onClose })
               onClick={() =>
                 loadSampleDataset(
                   '/samples/coastal_sensors.csv',
-                  'SF Bay Marine Sensor Buoys'
+                  'East Africa Marine Sensor Buoys'
                 )
               }
               className="p-3.5 rounded-xl bg-[#181820] border border-white/8 hover:border-[#f47fa3]/40 cursor-pointer transition-all flex items-center justify-between group"
@@ -125,10 +126,10 @@ export const AddLayerModal: React.FC<AddLayerModalProps> = ({ isOpen, onClose })
                 </div>
                 <div>
                   <div className="text-xs font-semibold text-[#f5f5f7] group-hover:text-[#f47fa3] transition-colors">
-                    SF Bay Marine Sensor Buoys (CSV)
+                    East Africa Marine Sensor Buoys (CSV)
                   </div>
                   <div className="text-[11px] text-[#9d9da8]">
-                    10 live water temperature, wave height, and tide sensors
+                    10 water temperature, wave height, and tide telemetry stations (Swahili Coast & Great Lakes)
                   </div>
                 </div>
               </div>
@@ -141,7 +142,7 @@ export const AddLayerModal: React.FC<AddLayerModalProps> = ({ isOpen, onClose })
               onClick={() =>
                 loadSampleDataset(
                   '/samples/coastline.geojson',
-                  'California Coastal Flood & Erosion Zones'
+                  'East Africa Coastal & Marine Resilience Zones'
                 )
               }
               className="p-3.5 rounded-xl bg-[#181820] border border-white/8 hover:border-[#e3b450]/40 cursor-pointer transition-all flex items-center justify-between group"
@@ -152,10 +153,10 @@ export const AddLayerModal: React.FC<AddLayerModalProps> = ({ isOpen, onClose })
                 </div>
                 <div>
                   <div className="text-xs font-semibold text-[#f5f5f7] group-hover:text-[#e3b450] transition-colors">
-                    Coastal Flood & Erosion Risk Zones (GeoJSON)
+                    East Africa Coastal & Marine Resilience Zones (GeoJSON)
                   </div>
                   <div className="text-[11px] text-[#9d9da8]">
-                    Polygons with elevation, erosion risk, flood depth, and NDVI
+                    Protected marine parks, mangrove biospheres, and reef zones across Mombasa, Lamu & Zanzibar
                   </div>
                 </div>
               </div>
@@ -181,6 +182,28 @@ export const AddLayerModal: React.FC<AddLayerModalProps> = ({ isOpen, onClose })
                 type="file"
                 multiple
                 accept=".geojson,.json,.csv,.parquet,.geoparquet,.pmtiles,.tif,.tiff,.cog"
+                onChange={(e) => handleFileUpload(e.target.files)}
+                className="hidden"
+              />
+            </label>
+          </div>
+        )}
+
+        {/* 3. Shapefile Upload */}
+        {activeTab === 'shapefile' && (
+          <div className="flex flex-col gap-3">
+            <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-white/10 hover:border-[#f47fa3]/50 rounded-2xl cursor-pointer bg-[#181820]/50 hover:bg-[#181820] transition-all">
+              <Upload size={32} className="text-[#f47fa3] mb-3 stroke-1" />
+              <span className="text-xs font-medium text-[#f5f5f7] mb-1">
+                Drop your shapefile (.zip or .shp) here, or click to browse
+              </span>
+              <span className="text-[11px] text-[#9d9da8] font-mono">
+                Supports .shp (with .dbf/.shx) or zipped archive
+              </span>
+              <input
+                type="file"
+                multiple
+                accept=".shp,.zip,.dbf,.shx"
                 onChange={(e) => handleFileUpload(e.target.files)}
                 className="hidden"
               />

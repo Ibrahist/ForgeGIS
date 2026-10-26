@@ -149,9 +149,9 @@ export function migrateProject(data: unknown): ForgeProject {
   const raw = (data && typeof data === 'object' ? data : {}) as Record<string, unknown>;
 
   const defaultView: ViewState = {
-    longitude: -122.35,
-    latitude: 37.8,
-    zoom: 11,
+    longitude: 37.5,
+    latitude: -1.5,
+    zoom: 6.0,
     pitch: 0,
     bearing: 0,
     projection: 'mercator',

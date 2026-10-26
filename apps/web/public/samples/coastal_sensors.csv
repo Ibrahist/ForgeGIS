@@ -1,11 +1,11 @@
 station_id,station_name,latitude,longitude,water_temp_c,wave_height_m,salinity_psu,tide_height_m,status
-SFO-BUOY-01,Farallon Outer Shelf,37.752,-122.585,13.8,2.8,33.8,1.4,active
-SFO-BUOY-02,Golden Gate Entrance,37.820,-122.480,14.6,1.9,32.4,1.8,active
-SFO-BUOY-03,Alcatraz Deep Channel,37.832,-122.425,15.1,0.9,31.2,1.6,active
-SFO-BUOY-04,Central Bay Shoal,37.795,-122.380,15.8,0.6,30.5,1.7,active
-SFO-BUOY-05,Oakland Estuary Mouth,37.785,-122.310,16.4,0.4,29.8,1.9,active
-SFO-BUOY-06,San Mateo Bridge South,37.620,-122.250,17.2,0.3,28.9,2.1,active
-SFO-BUOY-07,Dumbarton Narrows,37.510,-122.120,18.0,0.2,27.5,2.4,warning
-SFO-BUOY-08,Pacifica Coastal Bluff,37.610,-122.495,14.2,2.4,33.5,1.5,active
-SFO-BUOY-09,Half Moon Bay Pier,37.500,-122.480,14.5,2.1,33.2,1.3,active
-SFO-BUOY-10,Point Reyes Sentinel,38.000,-122.980,13.2,3.4,34.1,1.2,active
+EAF-BUOY-01,Mombasa Deep Channel, -4.0720, 39.7210, 28.4, 1.4, 35.1, 2.1, active
+EAF-BUOY-02,Zanzibar Channel North, -6.0500, 39.2500, 29.1, 0.8, 34.8, 2.4, active
+EAF-BUOY-03,Dar es Salaam Harbor, -6.8300, 39.3500, 29.5, 0.6, 34.5, 2.3, active
+EAF-BUOY-04,Lamu Archipelago Outer Shelf, -2.3100, 40.9500, 27.9, 1.8, 35.4, 1.9, active
+EAF-BUOY-05,Malindi Marine Reserve, -3.2300, 40.1500, 28.7, 1.1, 35.0, 2.0, active
+EAF-BUOY-06,Pemba Island Trench, -5.1800, 39.8500, 28.2, 1.5, 35.2, 2.2, active
+EAF-BUOY-07,Mafia Island Marine Park, -7.8800, 39.8500, 29.0, 0.7, 34.9, 2.5, active
+EAF-BUOY-08,Lake Victoria Kisumu Bay, -0.1100, 34.7200, 25.8, 0.3, 0.1, 0.0, active
+EAF-BUOY-09,Lake Victoria Entebbe Reach, 0.0300, 32.4800, 26.2, 0.4, 0.1, 0.0, active
+EAF-BUOY-10,Kilwa Kisiwani Heritage Reach, -8.9300, 39.5200, 28.8, 0.9, 35.1, 2.1, active

@@ -2,7 +2,7 @@
 
 **Lightweight, Local-First, Cloud-Native Geospatial Exploration Platform**
 
-Inspired by [GeoLibre](https://github.com/opengeos/GeoLibre) and designed with the sleek, dark aesthetic of [VoiceStudio](https://voicestudio.sh/), ForgeGIS is an open-source GIS platform that runs in the browser, as a native desktop application, and inside Jupyter notebooks from a single unified codebase.
+Inspired by the open‑source community and designed with the sleek, dark aesthetic of VoiceStudio, ForgeGIS is an open-source GIS platform that runs in the browser, as a native desktop application, and inside Jupyter notebooks from a single unified codebase.
 
 ---
 
@@ -49,7 +49,7 @@ pip install -e python/
 ```python
 from forgegis import ForgeMap
 
-m = ForgeMap(center=(-122.38, 37.8), zoom=11.5)
-m.add_layer("coastal_sensors.csv", name="Marine Buoys")
+m = ForgeMap(center=(37.5, -1.5), zoom=6.0)
+m.add_layer("coastal_sensors.csv", name="East Africa Marine Buoys")
 m
 ```

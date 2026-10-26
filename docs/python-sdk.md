@@ -18,7 +18,7 @@ pip install forgegis
 import forgegis
 
 # Create an interactive map widget
-m = forgegis.ForgeMap(center=(-122.38, 37.8), zoom=12.0)
+m = forgegis.ForgeMap(center=(37.5, -1.5), zoom=6.0)
 
 # Add a GeoJSON layer
 m.add_layer(

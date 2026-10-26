@@ -2,8 +2,8 @@ site_name: ForgeGIS
 site_description: Lightweight, local-first, cloud-native geospatial exploration platform
 site_author: ForgeGIS Core Team
 site_url: https://forgegis.org
-repo_url: https://github.com/opengeos/GeoLibre
-repo_name: opengeos/GeoLibre
+repo_url: https://github.com/yourorg/ForgeGIS
+repo_name: yourorg/ForgeGIS
 
 theme:
   name: material
